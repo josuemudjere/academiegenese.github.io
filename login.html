@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Connexion</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .login-box {
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .login-box h2 {
+      color: #1877f2;
+      margin-bottom: 10px;
+    }
+
+    .error {
+      color: red;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 20px;
+      width: 100%;
+    }
+
+    input[type="text"]{
+      margin-top: 10px;
+       width: 100%;
+      padding: 12px 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    input[type="password"] {
+      width: 100%;
+      padding: 12px 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      
+    }
+
+    .toggle-eye {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 18px;
+      color: #888;
+    }
+
+    .toggle-eye:hover {
+      color: #1877f2;
+    }
+
+    button {
+      width: 100%;
+      max-width: 300px;
+      height: 40px;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 0 auto;
+    }
+
+    button:hover {
+      background: #145dbf;
+    }
+
+    img {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 0px;
+    }
+  </style>
+</head>
+<body>
+  <form class="login-box" onsubmit="return verifierConnexion(event)">
+    <img src="assets/img/logo copie.png" alt="Logo Académie de la Genèse">
+    <h2><i class="fas fa-user-graduate"></i> Connexion élève</h2>
+
+    <div class="input-group">
+      <input type="text" name="matricule" id="matricule" placeholder="Numéro de matricule" required>
+    </div>
+
+    <div class="input-group">
+      <input type="password" name="password" placeholder="Mot de passe" id="password" required>
+      <span class="toggle-eye" onclick="togglePassword()">
+        <i id="eye-icon" class="fas fa-eye"></i>
+      </span>
+    </div>
+<p class="error" id="messageErreur">Matricule ou mot de passe incorrect</p>
+    <button type="submit">Se connecter</button>
+  </form>
+
+  <script>
+    function togglePassword() {
+      const pwd = document.getElementById("password");
+      const icon = document.getElementById("eye-icon");
+      if (pwd.type === "password") {
+        pwd.type = "text";
+        icon.classList.remove("fa-eye");
+        icon.classList.add("fa-eye-slash");
+      } else {
+        pwd.type = "password";
+        icon.classList.remove("fa-eye-slash");
+        icon.classList.add("fa-eye");
+      }
+    }
+
+    function verifierConnexion(event) {
+      event.preventDefault(); // Empêche l'envoi du formulaire
+
+      const matricule = document.getElementById("matricule").value;
+      const motdepasse = document.getElementById("password").value;
+      const messageErreur = document.getElementById("messageErreur");
+
+      // Identifiants autorisés (à modifier si besoin)
+      const matriculeCorrect = "MAT2025";
+      const motdepasseCorrect = "maternelle@2025-2026";
+
+      if (matricule === matriculeCorrect && motdepasse === motdepasseCorrect) {
+        // Rediriger vers une autre page si les identifiants sont bons
+        window.location.href = "maternelle.html"; // crée cette page pour le test
+      } else {
+        messageErreur.style.display = "block"; // Affiche le message d'erreur
+      }
+    }
+  </script>
+</body>
+</html>

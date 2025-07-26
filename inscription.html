@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fiche d'inscription - Secondaire</title>
+  <script>
+    
+  function imprimerFiche() {
+  const fiche = document.getElementById("pdf-content"); // Récupère la partie du document à imprimer
+  const newWindow = window.open("", "", "width=800, height=600");
+  newWindow.document.write("<html><head><title>Impression de la fiche</title></head><body>");
+  newWindow.document.write(fiche.innerHTML);  // Ajoute le contenu de la fiche d'inscription
+  newWindow.document.write("</body></html>");
+  newWindow.document.close();
+  newWindow.print();  // Lance l'impression
+}
+function remplirEtImprimerFiche() {
+  // 1. Récupération des valeurs du formulaire
+  const getValue = (name) => document.querySelector(`[name="${name}"]`)?.value || "";
+
+  document.getElementById("out_nom").textContent = getValue("nom");
+  document.getElementById("out_prenom").textContent = getValue("prenom");
+  document.getElementById("out_postnom").textContent = getValue("postnom");
+  document.getElementById("out_lieu_naissance").textContent = getValue("lieu_naissance");
+  document.getElementById("out_classe").textContent = getValue("classe");
+  document.getElementById("out_ecole_provenance").textContent = getValue("ecole_provenance");
+  document.getElementById("out_nom_pere").textContent = getValue("nom_pere");
+  document.getElementById("out_profession_pere").textContent = getValue("profession_pere");
+  document.getElementById("out_nom_mere").textContent = getValue("nom_mere");
+  document.getElementById("out_profession_mere").textContent = getValue("profession_mere");
+  document.getElementById("out_adresse_parents").textContent = getValue("adresse_parents");
+  document.getElementById("out_tuteur").textContent = getValue("tuteur");
+  document.getElementById("out_profession_tuteur").textContent = getValue("profession_tuteur");
+  document.getElementById("out_telephone").textContent = getValue("telephone");
+  document.getElementById("out_province").textContent = getValue("province");
+  document.getElementById("out_territoire").textContent = getValue("territoire");
+  document.getElementById("out_etat_sante").textContent = getValue("etat_sante");
+  document.getElementById("out_aptitude_physique").textContent = getValue("aptitude_physique");
+  document.getElementById("out_dossiers_deposes").textContent = getValue("dossiers_deposes");
+
+  // 2. Prévisualisation de l'image
+  const fileInput = document.getElementById("photo");
+  if (fileInput.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById("out_photo").src = e.target.result;
+      lancerImpression(); // attendre la fin du chargement
+    };
+    reader.readAsDataURL(fileInput.files[0]);
+  } else {
+    lancerImpression(); // pas de photo
+  }
+}
+
+function lancerImpression() {
+  const fiche = document.getElementById("pdf-content");
+  fiche.style.display = "block";
+
+  const newWindow = window.open("", "", "width=800,height=600");
+  newWindow.document.write("<html><head><title>Fiche d'inscription</title>");
+  newWindow.document.write(`
+    <style>
+      body { font-family: 'Arial', sans-serif; padding: 30px; background: #f8f9fa; }
+      h2 { background-color: #2a9d8f; color: white; padding: 10px; border-radius: 5px; text-align: center; }
+      .fiche-grid { display: flex; gap: 30px; margin-top: 20px; }
+      .col-gauche { flex: 3; }
+      .col-droite { flex: 1; text-align: center; }
+      .form-block { margin-bottom: 12px; }
+      .form-block strong { color: #264653; }
+      img { max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #ccc; }
+    </style>
+  `);
+  newWindow.document.write("</head><body>");
+  newWindow.document.write(fiche.innerHTML);
+  newWindow.document.write("</body></html>");
+  newWindow.document.close();
+
+  // attendre que le contenu soit prêt pour imprimer
+  newWindow.onload = () => {
+    newWindow.print();
+    newWindow.close();
+  };
+
+  fiche.style.display = "none"; // cacher à nouveau
+}
+
+</script>
+
+<div class="impression-fiche" id="pdf-content" style="display: none;">
+  <div class="fiche-header">FICHE D’INSCRIPTION / SECONDAIRES</div>
+
+  <div class="fiche-identification">
+    <table class="fiche-table">
+      <tr>
+        <td colspan="2"><strong>1. NOM :</strong> <span id="out_nom"></span></td>
+        <td rowspan="3" class="photo-cell">
+          <div class="photo-wrapper">
+            <span>Photo de l'eleve</span>
+            <img id="out_photo" src="" alt="Photo">
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2"><strong>2. POST-NOM :</strong> <span id="out_postnom"></span></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <strong>3. PRÉNOM :</strong> <span id="out_prenom"></span>
+          &nbsp;&nbsp; <strong>SEXE :</strong> <span id="out_sexe"></span>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3">
+          <strong>4. LIEU ET DATE DE NAISSANCE :</strong> <span id="out_lieu_naissance"></span>
+          &nbsp;&nbsp; <strong>CLASSE :</strong> <span id="out_classe"></span>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3"><strong>5. NATIONALITÉ :</strong> <span id="out_nationalite"></span></td>
+      </tr>
+      <tr>
+        <td colspan="3"><strong>6. ÉCOLE DE PROVENANCE :</strong> <span id="out_ecole_provenance"></span></td>
+      </tr>
+      <tr>
+        <td colspan="3"><strong>7. NOM DU PÈRE :</strong> <span id="out_nom_pere"></span></td>
+      </tr>
+      <tr>
+        <td colspan="3"><strong>8. PROFESSION :</strong> <span id="out_profession_pere"></span></td>
+      </tr>
+      <tr>
+        <td colspan="3"><strong>9. NOM DE LA MÈRE :</strong> <span id="out_nom_mere"></span></td>
+      </tr>
+      <tr>
+        <td colspan="3"><strong>10. PROFESSION :</strong> <span id="out_profession_mere"></span></td>
+      </tr>
+      <tr>
+        <td colspan="3"><strong>11. ADRESSE DES PARENTS :</strong> <span id="out_adresse_parents"></span></td>
+      </tr>
+      <tr>
+        <td colspan="3"><strong>12. TUTEUR :</strong> <span id="out_tuteur"></span></td>
+      </tr>
+      <tr>
+        <td colspan="3"><strong>13. PROFESSION :</strong> <span id="out_profession_tuteur"></span></td>
+      </tr>
+      <tr>
+        <td colspan="3"><strong>14. N° TÉLÉPHONE :</strong> <span id="out_telephone"></span></td>
+      </tr>
+      <tr>
+        <td colspan="3"><strong>15. PROVINCE D’ORIGINE :</strong> <span id="out_province"></span></td>
+      </tr>
+      <tr>
+        <td colspan="3"><strong>16. TERRITOIRE :</strong> <span id="out_territoire"></span></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="section-titre">AUTRES INFORMATIONS</div>
+  <table class="fiche-table">
+    <tr><td><strong>✔ ÉTAT DE SANTÉ :</strong> <span id="out_etat_sante"></span></td></tr>
+    <tr><td><strong>✔ APTITUDES INTELLECTUELLES :</strong> <span id="out_aptitude_physique"></span></td></tr>
+    <tr><td><strong>✔ DOSSIERS DÉPOSÉS :</strong> <span id="out_dossiers_deposes"></span></td></tr>
+  </table>
+
+  <div class="bas-fiche">
+    <div>
+      <strong>POUR LE PARENT</strong><br>
+      Nom et Signature
+    </div>
+    <div>
+      <strong>Fait à Kinshasa, le</strong> ___/___/20__<br>
+      <strong>POUR LA DIRECTION</strong><br>
+      Nom et Signature
+    </div>
+  </div>
+</div>
+
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      background-color: #f4a261;
+      color: black;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 20px;
+    }
+
+    .flex-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .left-column {
+      flex: 1 1 300px;
+    }
+
+    .right-column {
+      flex: 1 1 300px;
+      margin-left: 40px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="file"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .form-row .form-group {
+      flex: 1 1 45%;
+    }
+
+    .photo-preview {
+      width: 200px;
+      height: 230px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      overflow: hidden;
+      background-color: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .photo-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    input[type="submit"] {
+      display: block;
+      margin: 30px auto 0;
+      padding: 12px 30px;
+      font-size: 16px;
+      background-color: #264653;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #4caf50;
+    }
+.btn-imprimer {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #2a9d8f;
+  color: white;
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s ease;
+  margin: 20px auto 0;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.btn-imprimer:hover {
+  background-color: #21867a;
+  transform: scale(1.03);
+}
+.btn-imprimer:active {
+  transform: scale(0.98);
+}
+.impression-fiche {
+  max-width: 900px;
+  margin: auto;
+  padding: 30px;
+  background-color: #fff;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 5px #aaa;
+}
+
+.fiche-header {
+  background: #2e86c1;
+  color: white;
+  text-align: center;
+  padding: 12px;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.fiche-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  font-size: 15px;
+}
+
+.fiche-table td {
+  border: 1px solid #bbb;
+  padding: 10px;
+  vertical-align: top;
+}
+
+.photo-cell {
+  width: 80px;
+  text-align: right;
+  vertical-align: top;
+}
+
+
+.photo-wrapper {
+  display:inline-block;
+  flex-direction: column;
+  align-items: right;
+  font-size: 12px;
+  font-weight: bold;
+  border: 1px solid #aaa;
+  padding: 5px;
+  border-radius: 6px;
+}
+
+.photo-wrapper img {
+  width: 60px;
+  height: 75px;
+  object-fit: cover;
+  margin-top: 5px;
+  border: 1px solid #999;
+  border-radius: 4px;
+}
+
+
+.section-titre {
+  background-color: #f8f9f9;
+  border-left: 6px solid #3498db;
+  padding: 8px 12px;
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.bas-fiche {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  font-size: 14px;
+}
+
+
+    @media (max-width: 768px) {
+      .form-row .form-group,
+      .left-column,
+      .right-column {
+        flex: 1 1 100%;
+      }
+
+      .right-column {
+        margin-left: 0;
+        order: -1;
+      }
+
+      .right-column .form-group {
+        margin-bottom: 20px;
+      }
+    }
+
+    /* Style page de connexion */
+    #login-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .login-container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .login-container h2 {
+      font-size: 24px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .form-group input {
+      width: 92%;
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+      color: #333;
+      background: #f7f7f7;
+    }
+
+    .form-group input:focus {
+      border-color: #4caf50;
+      background: #fff;
+    }
+
+    .eye-icon {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+
+    .btn {
+      background-color: #4caf50;
+      color: #fff;
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      width: 100%;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #45a049;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    #formulaire {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Page de connexion -->
+<section id="login-section">
+  <div class="login-container">
+    <h2>Connexion</h2>
+    <div class="form-group" style="position: relative;">
+      <input type="password" id="password" placeholder="Entrez le mot de passe">
+      <span id="toggle-password" class="eye-icon">👁️</span>
+    </div>
+    <button class="btn" onclick="checkPassword()">Se connecter</button>
+    <p id="error-message" class="error-message" style="display: none;">Mot de passe incorrect.</p>
+  </div>
+</section>
+
+<!-- Formulaire d'inscription -->
+<div class="container" id="formulaire">
+  <h2>FICHE D'INSCRIPTION / SECONDAIRES</h2>
+  <form action="enregistrer.php" method="POST" enctype="multipart/form-data">
+    <div class="flex-row">
+      <div class="left-column">
+        <div class="form-group"><label>1. Nom</label><input type="text" name="nom" required></div>
+        <div class="form-group"><label>2. Prénom</label><input type="text" name="prenom" required></div>
+        <div class="form-group"><label>3. Post-nom</label><input type="text" name="postnom" required></div>
+        <div class="form-group">
+  <label for="sexe">Sexe</label>
+  <select name="sexe" id="sexe" required>
+    <option value="">--Sélectionnez--</option>
+    <option value="Masculin">Masculin</option>
+    <option value="Féminin">Féminin</option>
+  </select>
+</div>
+        <div class="form-group"><label>4. Lieu et date de naissance</label><input type="text" name="lieu_naissance" required></div>
+        <div class="form-group"><label>5. Classe</label><input type="text" name="classe" required></div>
+        <div class="form-group">
+  <label for="nationalite">Nationalité</label>
+  <input type="text" name="nationalite" id="nationalite" value="Congolaise" required>
+</div>
+
+        <div class="form-group"><label>6. École de provenance</label><input type="text" name="ecole_provenance" required></div>
+        <div class="form-group"><label>7. Nom du père</label><input type="text" name="nom_pere" required></div>
+        <div class="form-group"><label>8. Profession du père</label><input type="text" name="profession_pere" required></div>
+        <div class="form-group"><label>9. Nom de la mère</label><input type="text" name="nom_mere" required></div>
+        <div class="form-group"><label>10. Profession de la mère</label><input type="text" name="profession_mere" required></div>
+        <div class="form-group"><label>11. Adresse des parents</label><input type="text" name="adresse_parents" required></div>
+        <div class="form-group"><label>12. Tuteur</label><input type="text" name="tuteur" required></div>
+        <div class="form-group"><label>13. Profession du tuteur</label><input type="text" name="profession_tuteur" required></div>
+        <div class="form-group"><label>14. Numéro de téléphone</label><input type="tel" name="telephone" required></div>
+      </div>
+      <div class="right-column">
+        <div class="form-group">
+          <label for="photo">Photo de l'élève :</label>
+          <input type="file" id="photo" name="photo" accept="image/*" onchange="previewPhoto(event)">
+        </div>
+        <div class="photo-preview">
+          <img id="preview-img" src="" alt="Aperçu photo">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="province">Province d'origine</label>
+        <select name="province" id="province" required>
+          <option value="">--Sélectionnez une province--</option>
+          <option value="Kinshasa">Kinshasa</option>
+          <option value="Bas-Uele">Bas-Uele</option>
+          <option value="Haut-Uele">Haut-Uele</option>
+          <option value="Ituri">Ituri</option>
+          <option value="Nord-Kivu">Nord-Kivu</option>
+          <option value="Sud-Kivu">Sud-Kivu</option>
+          <option value="Maniema">Maniema</option>
+          <option value="Tanganyika">Tanganyika</option>
+          <!-- Ajoutez les autres provinces ici -->
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="territoire">Territoire</label>
+        <select name="territoire" id="territoire" required>
+          <option value="">--Sélectionnez un territoire--</option>
+        </select>
+      </div>
+    </div>
+
+    <h3>Autres informations :</h3>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="etat_sante">État de santé</label>
+        <textarea name="etat_sante" id="etat_sante" rows="4" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="aptitude_physique">Aptitude physique</label>
+        <textarea name="aptitude_physique" id="aptitude_physique" rows="4" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="dossiers_deposes">Dossiers déposés</label>
+        <textarea name="dossiers_deposes" id="dossiers_deposes" rows="4" required></textarea>
+      </div>
+    </div>
+<button type="button" class="btn-imprimer" onclick="remplirEtImprimerFiche()">
+  🖨️ Imprimer la fiche
+</button>
+
+  
+
+  </form>
+</div>
+
+<script>
+  const correctPassword = "Genese2025"; // Remplacez par le vrai mot de passe
+
+  document.getElementById("toggle-password").addEventListener("click", function () {
+    const input = document.getElementById("password");
+    if (input.type === "password") {
+      input.type = "text";
+      this.textContent = "🙈";
+    } else {
+      input.type = "password";
+      this.textContent = "👁️";
+    }
+  });
+
+  function checkPassword() {
+    const input = document.getElementById("password").value;
+    if (input === correctPassword) {
+      document.getElementById("login-section").style.display = "none";
+      document.getElementById("formulaire").style.display = "block";
+    } else {
+      document.getElementById("error-message").style.display = "block";
+    }
+  }
+
+  function previewPhoto(event) {
+    const img = document.getElementById("preview-img");
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = e => img.src = e.target.result;
+      reader.readAsDataURL(file);
+    }
+  }
+
+  const territoiresParProvince = {
+    "Kinshasa": ["Gombe", "Kasa-Vubu", "Ngaliema", "Matete", "Ndjili", "Mont Ngafula"],
+    "Bas-Uele": ["Aketi", "Bondo", "Buta", "Poko"],
+    "Haut-Uele": ["Isiro", "Dungu", "Faradje", "Watsa"],
+    "Ituri": ["Aru", "Djugu", "Irumu", "Mahagi", "Mambasa"],
+    "Nord-Kivu": ["Beni", "Lubero", "Masisi", "Nyiragongo", "Rutshuru", "Walikale"],
+    "Sud-Kivu": ["Fizi", "Kabare", "Kalehe", "Mwenga", "Shabunda", "Uvira", "Walungu"],
+    "Maniema": ["Kabambare", "Kailo", "Kasongo", "Kindu", "Lubutu", "Punia"],
+    "Tanganyika": ["Kalemie", "Moba", "Manono", "Nyunzu"]
+  };
+
+  const provinceSelect = document.getElementById("province");
+  const territoireSelect = document.getElementById("territoire");
+
+  provinceSelect.addEventListener("change", function () {
+    const province = this.value;
+    const territoires = territoiresParProvince[province] || [];
+    territoireSelect.innerHTML = '<option value="">--Sélectionnez un territoire--</option>';
+    territoires.forEach(t => {
+      const option = document.createElement("option");
+      option.value = t;
+      option.textContent = t;
+      territoireSelect.appendChild(option);
+    });
+  });
+</script>
+
+</body>
+</html>

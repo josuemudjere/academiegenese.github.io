@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Communiqués</title>
+
+  <!-- Font Awesome pour les icônes -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .welcome {
+      font-size: 18px;
+      color: #0a3d62;
+      font-weight: bold;
+    }
+
+    .logout-btn {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 16px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .logout-btn:hover {
+      background-color: #c82333;
+    }
+
+    h2 {
+      font-size: 28px;
+      color: #0a3d62;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    .card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fff;
+      border-radius: 12px;
+      padding: 18px 24px;
+      margin: 12px auto;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      width: 90%;
+      max-width: 600px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+    }
+
+    .title {
+      font-size: 18px;
+      color: #003366;
+      text-align: left;
+    }
+
+    .arrow i {
+      font-size: 20px;
+      color: #00bfff; /* bleu ciel */
+    }
+    .welcome i {
+  color: #1877f2; /* bleu Facebook */
+  font-size: 20px;
+  margin-left: 5px;
+}
+.return-btn {
+  margin-left: 10px;
+  color: #007bff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.return-btn:hover {
+  text-decoration: underline;
+}
+
+
+  </style>
+</head>
+<body>
+
+  <!-- Barre supérieure avec message de bienvenue et bouton -->
+  <div class="top-bar">
+    <div class="welcome">Bienvenue <i class="fas fa-user-graduate"></i></div>
+    <button class="logout-btn" onclick="deconnexion()">Se déconnecter</button>
+  </div>
+
+
+
+  <h2>Communiqués</h2>
+
+  <!-- Carte 1 -->
+  <div class="card" onclick="window.location.href='detailm.html'">
+    <span class="title">Communiqué du 14 juillet</span>
+    <span class="arrow"><i class="fas fa-arrow-right"></i></span>
+  </div>
+
+  <!-- Carte 2 -->
+  <div class="card" onclick="window.location.href='detail.html'">
+    <span class="title">Communiqué du 14 juillet</span>
+    <span class="arrow"><i class="fas fa-arrow-right"></i></span>
+  </div>
+
+  <!-- Carte 3 -->
+  <div class="card" onclick="window.location.href='detail.html'">
+    <span class="title">Communiqué du 14 juillet</span>
+    <span class="arrow"><i class="fas fa-arrow-right"></i></span>
+  </div>
+
+  <!-- Carte 4 -->
+  <div class="card" onclick="window.location.href='detail.html'">
+    <span class="title">Communiqué du 14 juillet</span>
+    <span class="arrow"><i class="fas fa-arrow-right"></i></span>
+  </div>
+  <a href="index.html" class="return-btn">← Retour sur le site</a>
+  <script>
+    function deconnexion() {
+      window.location.href = "login.html";
+    }
+  </script>
+</body>
+</html>
