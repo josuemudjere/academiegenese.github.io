@@ -84,17 +84,17 @@ if (!isset($_SESSION["logged_in"])) {
   </div>
 
   <div class="card" onclick="window.location.href='detail.html'">
-    <span class="title">Communiqué du 14 juillet</span>
+    <span class="title">Communiqué du 15 juillet</span>
     <span class="arrow"></span>
   </div>
 
   <div class="card" onclick="window.location.href='detail.html'">
-    <span class="title">Communiqué du 14 juillet</span>
+    <span class="title">Communiqué du 16 juillet</span>
     <span class="arrow"></span>
   </div>
 
   <div class="card" onclick="window.location.href='detail.html'">
-    <span class="title">Communiqué du 14 juillet</span>
+    <span class="title">Communiqué du 17 juillet</span>
     <span class="arrow"></span>
   </div>
 </body>
